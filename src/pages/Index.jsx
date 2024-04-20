@@ -104,6 +104,15 @@ const Index = () => {
             {node.name}
           </Text>
           <IconButton icon={<FaTrash />} size="sm" onClick={() => handleDeleteNode(node.id)} />
+          <IconButton
+            icon={<FaPlus />}
+            size="sm"
+            onClick={() => {
+              setSelectedNode(node);
+              setEditMode(false);
+              setInputValue("");
+            }}
+          />
         </HStack>
         {node.children.length > 0 && renderTree(node.children, depth + 1)}
       </VStack>
@@ -112,7 +121,10 @@ const Index = () => {
   return (
     <Box p={5}>
       <VStack spacing={4}>
-        <Input placeholder="Enter node name" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+        <HStack>
+          <Input placeholder="Enter parent node name" value={selectedNode ? selectedNode.name : ""} isReadOnly />
+          <Input placeholder="Enter child node name" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+        </HStack>
         <HStack>
           {editMode ? (
             <Button leftIcon={<FaSave />} onClick={handleEditNode}>
